@@ -16,6 +16,7 @@ application:
       DB_HOST: "postgres.pod"
       DB_USER: mailu
       DB_PW: mailu
+      REDIS_ADDRESS: "redis.pod:6379"
     volumes:
     - name: mailu-data
       mountPath: /data
@@ -32,3 +33,7 @@ application:
     - name: mailu-db
       mountPath: /var/lib/postgresql/data
       size: 5Gi
+  - name: redis
+    image: redis:7-alpine
+    servicePorts:
+    - 6379
