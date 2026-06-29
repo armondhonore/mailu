@@ -1,0 +1,39 @@
+application:
+  name: mailu
+  pods:
+  - name: web
+    image: ghcr.io/mailu/admin:2024.06
+    path: /
+    servicePorts:
+    - 80
+    vars:
+      SECRET_KEY: "a1b2c3d4e5f6a1b2c3d4"
+      DOMAIN: "relaxed-weasel-mailu.cloud.nexlayer.ai"
+      HOSTNAMES: "relaxed-weasel-mailu.cloud.nexlayer.ai"
+      INITIAL_ADMIN_ACCOUNT: admin
+      INITIAL_ADMIN_DOMAIN: "relaxed-weasel-mailu.cloud.nexlayer.ai"
+      INITIAL_ADMIN_PW: "changeme123"
+      DB_HOST: "postgres.pod"
+      DB_USER: mailu
+      DB_PW: mailu
+      REDIS_ADDRESS: "redis.pod:6379"
+    volumes:
+    - name: mailu-data
+      mountPath: /data
+      size: 5Gi
+  - name: postgres
+    image: postgres:16-alpine
+    servicePorts:
+    - 5432
+    vars:
+      POSTGRES_DB: mailu
+      POSTGRES_USER: mailu
+      POSTGRES_PASSWORD: mailu
+    volumes:
+    - name: mailu-db
+      mountPath: /var/lib/postgresql/data
+      size: 5Gi
+  - name: redis
+    image: redis:7-alpine
+    servicePorts:
+    - 6379

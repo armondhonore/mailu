@@ -1,0 +1,1 @@
+FROM ghcr.io/mailu/admin:2024.06
