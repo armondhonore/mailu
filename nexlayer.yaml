@@ -13,7 +13,7 @@ application:
       INITIAL_ADMIN_ACCOUNT: admin
       INITIAL_ADMIN_DOMAIN: "relaxed-weasel-mailu.cloud.nexlayer.ai"
       INITIAL_ADMIN_PW: "changeme123"
-      DB_HOST: "postgres.pod"
+      DB_HOST: "postgres.pod:5432"
       DB_USER: mailu
       DB_PW: mailu
       REDIS_ADDRESS: "redis.pod:6379"
@@ -22,7 +22,8 @@ application:
       mountPath: /data
       size: 5Gi
   - name: postgres
-    image: postgres:16-alpine
+    image: mirror.gcr.io/library/postgres:16-alpine
+    path: /postgres
     servicePorts:
     - 5432
     vars:
@@ -34,6 +35,7 @@ application:
       mountPath: /var/lib/postgresql/data
       size: 5Gi
   - name: redis
-    image: redis:7-alpine
+    image: mirror.gcr.io/library/redis:7-alpine
+    path: /redis
     servicePorts:
     - 6379
